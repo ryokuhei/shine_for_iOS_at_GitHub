@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="lSG-7P-ROV">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Futura.ttc">
+            <string>Futura-Medium</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Menu Container View Controller-->
+        <scene sceneID="QeG-AP-q5f">
+            <objects>
+                <viewController id="lSG-7P-ROV" customClass="MenuContainerViewController" customModule="shine_for_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1yQ-rW-7RX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="6J1-j4-aon" customClass="MenuBarView" customModule="shine_for_iOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="577" width="375" height="90"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="90" id="mWV-qa-r94"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WLj-as-FmW">
+                                    <size key="itemSize" width="48" height="64"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="menuCell" id="6xn-2a-d20" userLabel="menuCell" customClass="MenuCell" customModule="shine_for_iOS" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="13.5" width="48" height="64"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="64"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="あ" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="04L-Vz-4lG">
+                                                    <rect key="frame" x="8" y="0.0" width="32" height="51"/>
+                                                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="20"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="04L-Vz-4lG" firstAttribute="centerX" secondItem="6xn-2a-d20" secondAttribute="centerX" id="58X-6J-8QS"/>
+                                            <constraint firstAttribute="trailing" secondItem="04L-Vz-4lG" secondAttribute="trailing" constant="8" id="8Mk-xr-M49"/>
+                                            <constraint firstItem="04L-Vz-4lG" firstAttribute="leading" secondItem="6xn-2a-d20" secondAttribute="leadingMargin" id="QwS-fe-Izd"/>
+                                            <constraint firstItem="04L-Vz-4lG" firstAttribute="leading" secondItem="6xn-2a-d20" secondAttribute="leading" constant="8" id="U6L-O0-jGd"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="04L-Vz-4lG" secondAttribute="bottom" constant="5" id="UDV-Ai-vZs"/>
+                                            <constraint firstItem="04L-Vz-4lG" firstAttribute="top" secondItem="6xn-2a-d20" secondAttribute="top" id="f7S-Pb-eWk"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="04L-Vz-4lG" secondAttribute="trailing" id="oLz-cW-Qda"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="menuView" destination="04L-Vz-4lG" id="YjD-TX-DZa"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uNV-zV-l9p">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="577"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="6J1-j4-aon" firstAttribute="bottom" secondItem="m81-34-ZEc" secondAttribute="bottom" id="KVg-BG-frN"/>
+                            <constraint firstItem="6J1-j4-aon" firstAttribute="leading" secondItem="m81-34-ZEc" secondAttribute="leading" id="LaQ-CV-e0I"/>
+                            <constraint firstItem="6J1-j4-aon" firstAttribute="top" secondItem="uNV-zV-l9p" secondAttribute="bottom" id="bqI-Bp-HaH"/>
+                            <constraint firstItem="uNV-zV-l9p" firstAttribute="top" secondItem="1yQ-rW-7RX" secondAttribute="top" id="gNw-bA-hjA"/>
+                            <constraint firstItem="6J1-j4-aon" firstAttribute="trailing" secondItem="m81-34-ZEc" secondAttribute="trailing" id="rJJ-o0-d6R"/>
+                            <constraint firstItem="uNV-zV-l9p" firstAttribute="leading" secondItem="m81-34-ZEc" secondAttribute="leading" id="u7y-lr-9BK"/>
+                            <constraint firstItem="uNV-zV-l9p" firstAttribute="trailing" secondItem="m81-34-ZEc" secondAttribute="trailing" id="xJp-Ux-Eaw"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="m81-34-ZEc"/>
+                    </view>
+                    <connections>
+                        <outlet property="contentView" destination="uNV-zV-l9p" id="g6y-qW-5Om"/>
+                        <outlet property="menuBar" destination="6J1-j4-aon" id="xe9-bU-7Gt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="26W-vT-GRn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-618.39999999999998" y="49.925037481259373"/>
+        </scene>
+    </scenes>
+</document>
