@@ -1,30 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="lSG-7P-ROV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="lSG-7P-ROV">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Futura.ttc">
-            <string>Futura-Medium</string>
-        </array>
-    </customFonts>
     <scenes>
-        <!--Menu Container View Controller-->
+        <!--Menu Container View Controller2-->
         <scene sceneID="QeG-AP-q5f">
             <objects>
-                <viewController id="lSG-7P-ROV" customClass="MenuContainerViewController" customModule="shine_for_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="lSG-7P-ROV" customClass="MenuContainerViewController2" customModule="shine_for_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1yQ-rW-7RX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="6J1-j4-aon" customClass="MenuBarView" customModule="shine_for_iOS" customModuleProvider="target">
+                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="6J1-j4-aon" customClass="MenuBarView2" customModule="shine_for_iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="577" width="375" height="90"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -38,7 +33,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="menuCell" id="6xn-2a-d20" userLabel="menuCell" customClass="MenuCell" customModule="shine_for_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="13.5" width="48" height="64"/>
+                                        <rect key="frame" x="0.0" y="13" width="48" height="64"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="48" height="64"/>
@@ -85,8 +80,8 @@
                         <viewLayoutGuide key="safeArea" id="m81-34-ZEc"/>
                     </view>
                     <connections>
-                        <outlet property="contentView" destination="uNV-zV-l9p" id="g6y-qW-5Om"/>
-                        <outlet property="menuBar" destination="6J1-j4-aon" id="xe9-bU-7Gt"/>
+                        <outlet property="contentView" destination="uNV-zV-l9p" id="ZZr-1S-1WV"/>
+                        <outlet property="menuBar" destination="6J1-j4-aon" id="9KY-kH-QLx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="26W-vT-GRn" userLabel="First Responder" sceneMemberID="firstResponder"/>

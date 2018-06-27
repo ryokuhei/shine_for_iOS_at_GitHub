@@ -10,12 +10,22 @@ import Foundation
 
 class MenuModel {
     
+    var index: Int
     var key: String
     var tabDisplay: String?
 
-    init(key: String, tabDisplay: String) {
+    init(index: Int, key: String, tabDisplay: String) {
+        self.index = index
         self.key = key
         self.tabDisplay = tabDisplay
     }
     
+}
+
+extension MenuModel: Equatable {
+    static func == (lhs: MenuModel, rhs: MenuModel) -> Bool {
+        return lhs.index == rhs.index && lhs.key == rhs.key && lhs.tabDisplay == rhs.tabDisplay
+    }
+    
+
 }

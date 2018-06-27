@@ -9,13 +9,13 @@
 import Foundation
 
 protocol MenuTranslator {
-    func translate(_ groupEntity: GroupEntity) ->MenuModel
+    func translate(index: Int, _ groupEntity: GroupEntity) ->MenuModel
 }
 
 class MenuTranslatorImpl: BaseTranslator, MenuTranslator {
     
-    func translate(_ groupEntity: GroupEntity) ->MenuModel {
-        return MenuModel(key: groupEntity.group, tabDisplay: groupEntity.group)
+    func translate(index: Int, _ groupEntity: GroupEntity) ->MenuModel {
+        return MenuModel(index: index, key: groupEntity.group, tabDisplay: groupEntity.group)
     }
     
 }

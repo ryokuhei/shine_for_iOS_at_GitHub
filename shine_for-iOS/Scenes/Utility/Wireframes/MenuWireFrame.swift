@@ -19,9 +19,9 @@ class MenuWireFrame: WireFrame {
        self.viewController = viewController
     }
     
-    func showContentView(index: Int) {
+    func showContentView(key: String) {
         
-        let transitVC = UserListViewControllerBuilder.build(index: index)
+        let transitVC = UserListViewControllerBuilder.build(key)
 
         self.viewController.addChildViewController(transitVC)
         transitVC.view.frame = viewController.view.frame

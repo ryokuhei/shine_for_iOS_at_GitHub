@@ -13,7 +13,7 @@ import RxSwift
 
 protocol MenuContainerInputs {
 
-    var selectMenu: Variable<Int> { get }
+    var selectMenu: PublishSubject<MenuModel> { get }
     var swipeOfLeft: PublishSubject<Void> { get }
     var swipeOfRight: PublishSubject<Void> { get }
 }
@@ -26,7 +26,7 @@ protocol MenuContainerOutputs {
     
     var menuList: Observable<[MenuModel]> {get}
     
-    var selectMenuBar: Observable<Int>{get}
+    var selectedMenu: Observable<MenuModel>{get}
 }
 
 protocol MenuContainerPresenter {
@@ -36,7 +36,7 @@ protocol MenuContainerPresenter {
 }
     
 class MenuContainerPresenterImpl: MenuContainerPresenter,MenuContainerInputs, MenuContainerOutputs {
-    
+
     lazy var inputs: MenuContainerInputs   = { self }()
     lazy var outputs: MenuContainerOutputs = { self }()
     
@@ -46,7 +46,8 @@ class MenuContainerPresenterImpl: MenuContainerPresenter,MenuContainerInputs, Me
         self.usecase = usecase
     }
     
-    var selectMenu = Variable<Int>(0)
+    var selectMenu = PublishSubject<MenuModel>()
+    
     var swipeOfLeft = PublishSubject<Void>()
     var swipeOfRight = PublishSubject<Void>()
 
@@ -65,7 +66,10 @@ class MenuContainerPresenterImpl: MenuContainerPresenter,MenuContainerInputs, Me
     }()
     
     lazy var currentIndex: Observable<Int?> = {
-        return Observable.merge(selectMenu.asObservable(),
+        return Observable.merge(selectMenu.asObservable()
+                                           .map { menu in
+                                               return menu.index
+                                           },
                                 incrementIndex,
                                 decrementIndex)
                .flatMap {
@@ -103,7 +107,7 @@ class MenuContainerPresenterImpl: MenuContainerPresenter,MenuContainerInputs, Me
                    .share(replay: 1)
     }()
     
-    lazy var selectMenuBar: Observable<Int> = {
+    lazy var selectedMenu: Observable<MenuModel> = {
         return self.selectMenu.asObservable()
                    .share(replay: 1)
     }()

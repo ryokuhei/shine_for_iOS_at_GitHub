@@ -20,13 +20,13 @@ class MenuContentViewContorllerBuilder: ViewControllerBuildable {
         return vc
     }
 
-    static func build(index: Int) -> MenuContentViewContorller {
+    static func build(menu: MenuModel) -> MenuContentViewContorller {
         let storyboard = UIStoryboard(name: "menuContent", bundle: nil)
         let vc = storyboard.instantiateInitialViewController() as! MenuContentViewContorller
 
         let wireframe = MenuWireFrame(viewController: vc)
 
-        vc.inject(index: index, wireframe: wireframe)
+        vc.inject(menu: menu, wireframe: wireframe)
 
         return vc
     }

@@ -34,7 +34,7 @@ class UserListViewControllerBuilder: ViewControllerBuildable {
         return vc
     }
     
-    static func build(index: Int) -> UserListViewController {
+    static func build(_ key: String) -> UserListViewController {
         let storyboard = UIStoryboard(name: "userList", bundle: nil)
         let vc = storyboard.instantiateInitialViewController() as! UserListViewController
         let wireFrame = UserListWireFrame(viewController: vc)
@@ -50,10 +50,6 @@ class UserListViewControllerBuilder: ViewControllerBuildable {
             )
         )
         
-        var key: String? = nil
-        if MenuManager.menuList.count >= 1 {
-            key = MenuManager.menuList[index].key
-        }
         vc.inject(key: key, wireFrame: wireFrame, presenter: presenter)
         
         return vc

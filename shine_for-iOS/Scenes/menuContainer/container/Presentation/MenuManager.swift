@@ -27,12 +27,14 @@ class MenuManager {
     }()
 
     static func reload() {
+        var index = -1
         self.group.getGroupList()
             .map {
               (groupList) ->[MenuModel] in
                 return groupList.map {
                   (groupEntity) ->MenuModel in
-                    return self.translator.translate(groupEntity)
+                    index = index + 1
+                    return self.translator.translate(index: index, groupEntity)
                 }
             }
             .subscribe(onNext: {

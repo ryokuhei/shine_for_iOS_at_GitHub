@@ -15,7 +15,6 @@ class MenuContainerViewController: UIViewController {
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var menuBar: MenuBarView!
-    var pageViewController: MenuPageViewController = MenuPageViewControllerBuilder.build()
 
     var presenter: MenuContainerPresenter?
     
@@ -36,18 +35,29 @@ class MenuContainerViewController: UIViewController {
     
     func configurateContent() {
         
+        self.displayMenuPageView()
+        self.displayButtomBorder()
+    }
+    
+    private func displayMenuPageView() {
+        
+        let pageViewController: MenuPageViewController = MenuPageViewControllerBuilder.build()
+        
         pageViewController.inject(presenter: presenter!)
         pageViewController.view.frame = contentView.frame
         contentView.addSubview(pageViewController.view)
         pageViewController.didMove(toParentViewController: self)
         self.addChildViewController(pageViewController)
+    }
+    
+    private func displayButtomBorder() {
         
         let bottomBorder = CALayer()
         let borderHight: CGFloat = 2.0
         bottomBorder.frame = CGRect(x: 0, y: contentView.frame.height - borderHight, width: contentView.bounds.width, height: borderHight)
         bottomBorder.backgroundColor = UIColor.MenuBar.border.cgColor
-
-        pageViewController.view.layer.addSublayer(bottomBorder)
+        
+        self.contentView.layer.addSublayer(bottomBorder)
     }
     
     func configurateTabMenu() {

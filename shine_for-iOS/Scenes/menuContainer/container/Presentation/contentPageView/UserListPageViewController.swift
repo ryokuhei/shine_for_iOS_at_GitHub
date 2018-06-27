@@ -16,9 +16,9 @@ class MenuPageViewController : UIPageViewController {
     var presenter: MenuContainerPresenter?
     var disposeBag = DisposeBag()
     
-    var prevIndex: Int?
-    var currentIndex: Int?
-    var nextIndex: Int?
+    var prevMenu: MenuModel?
+    var currentMenu: MenuModel?
+    var nextMenu: MenuModel?
     
     func inject(presenter: MenuContainerPresenter) {
         self.presenter = presenter
@@ -37,22 +37,28 @@ class MenuPageViewController : UIPageViewController {
         
         presenter?.outputs.contentIndexOfCurrent
             .subscribe(onNext: { [unowned self] index in
-                self.currentIndex = index
+                if let index = index {
+                    self.currentMenu = MenuManager.menuList[index]
+                }
             }).disposed(by: disposeBag)
         
         presenter?.outputs.contentIndexOfBefore.subscribe(
             onNext: { [unowned self] index in
-                self.prevIndex = index
+                if let index = index {
+                    self.prevMenu = MenuManager.menuList[index]
+                }
             }).disposed(by: disposeBag)
 
         presenter?.outputs.contentIndexOfAfter.subscribe(
             onNext: { [unowned self] index in
-                self.nextIndex = index
+                if let index = index {
+                    self.nextMenu = MenuManager.menuList[index]
+                }
             }).disposed(by: disposeBag)
         
-        presenter?.outputs.selectMenuBar.subscribe(
-            onNext: { [unowned self] index in
-                let vc = MenuContentViewContorllerBuilder.build(index: index)
+        presenter?.outputs.selectedMenu.subscribe(
+            onNext: { [unowned self] menu in
+                let vc = MenuContentViewContorllerBuilder.build(menu: menu)
                 self.setViewContorller(vc)
         }).disposed(by: disposeBag)
     }
@@ -66,10 +72,10 @@ extension MenuPageViewController: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
 
-        guard let prevIndex = self.prevIndex else {
+        guard let prevMenu = self.prevMenu else {
             return nil
         }
-        let beforeViewController = MenuContentViewContorllerBuilder.build(index: prevIndex)
+        let beforeViewController = MenuContentViewContorllerBuilder.build(menu: prevMenu)
         presenter?.inputs.swipeOfRight.onNext(())
 
         return beforeViewController
@@ -77,10 +83,10 @@ extension MenuPageViewController: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
-        guard let nextIndex = self.nextIndex else {
+        guard let nextMenu = self.nextMenu else {
             return nil
         }
-        let afterViewController = MenuContentViewContorllerBuilder.build(index: nextIndex)
+        let afterViewController = MenuContentViewContorllerBuilder.build(menu: nextMenu)
         presenter?.inputs.swipeOfLeft.onNext(())
 
         return afterViewController

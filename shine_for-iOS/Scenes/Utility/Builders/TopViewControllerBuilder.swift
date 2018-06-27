@@ -23,7 +23,7 @@ class TopViewControllerBuilder: ViewControllerBuildable {
         )
         vc.setViewController(
             slideMenuVC: SlideMenuViewControllerBuilder.build(),
-            contentVC: MenuContainerViewControllerBuilder.build()
+            contentVC: MenuContainerBuilder.build()
         )
         
         return vc

@@ -11,7 +11,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class UserListViewController: UIViewController {
+class UserListViewController: MenuContentViewController2 {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -24,12 +24,10 @@ class UserListViewController: UIViewController {
     var userList = [UserListModel]()
 
     func inject(key: String?, wireFrame: UserListWireFrame, presenter: UserListPresenter) {
-
         self.key = key
         
         self.wireFrame = wireFrame
         self.presenter = presenter
-        
     }
 
     override func viewDidLoad() {

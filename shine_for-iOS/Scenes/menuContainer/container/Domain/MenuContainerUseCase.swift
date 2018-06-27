@@ -9,9 +9,11 @@
 import Foundation
 import RxCocoa
 import RxSwift
+import UIKit
 
 protocol MenuContainerUseCase {
-    func getGroupList() ->Observable<[MenuModel]> 
+    func getGroupList() ->Observable<[MenuModel]>
+    func instantiateViewController(at menu: MenuModel) ->Observable<UIViewController>
 }
 
 class MenuContainerUseCaseImpl: BaseUseCase, MenuContainerUseCase {
@@ -25,15 +27,22 @@ class MenuContainerUseCaseImpl: BaseUseCase, MenuContainerUseCase {
     }
     
     func getGroupList() ->Observable<[MenuModel]> {
+        var index = -1
         return group.getGroupList()
                     .map {
                       [unowned self] (groupEntityList) in
                         return groupEntityList.map {
+                            
                           [unowned self] (userEntity) in
-                            return self.menuTranslator.translate(userEntity)
+                            index = index + 1
+                            return self.menuTranslator.translate(index: index, userEntity)
                         }
                     }
         
+    }
+    
+    func instantiateViewController(at menu: MenuModel) ->Observable<UIViewController> {
+        return Observable.just(UserListViewControllerBuilder.build(menu.key))
     }
 
 }

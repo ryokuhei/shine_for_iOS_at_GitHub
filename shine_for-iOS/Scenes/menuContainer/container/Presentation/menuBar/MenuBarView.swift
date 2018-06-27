@@ -57,7 +57,7 @@ extension MenuBarView: UICollectionViewDelegate {
         
         self.currentIndex = indexPath.item
         collectionView.selectItem(at: self.selectIndexPath , animated: true, scrollPosition: .centeredHorizontally)
-        presenter?.inputs.selectMenu.value = self.currentIndex!
+        presenter?.inputs.selectMenu.onNext(MenuManager.menuList[currentIndex!])
     }
     
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {

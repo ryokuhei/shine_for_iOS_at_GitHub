@@ -13,17 +13,19 @@ import RxSwift
 
 class MenuContentViewContorller: UIViewController {
     
-    var index: Int = 0
+    var menu: MenuModel?
     var wireframe: MenuWireFrame?
 
-    func inject(index: Int, wireframe: MenuWireFrame) {
-        self.index = index
+    func inject(menu: MenuModel, wireframe: MenuWireFrame) {
+        self.menu = menu
         self.wireframe = wireframe
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        wireframe?.showContentView(index: self.index)
+        if let key = self.menu?.key {
+            wireframe?.showContentView(key: key)
+        }
     }
     
 }
