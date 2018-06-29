@@ -11,7 +11,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class UserListViewController: MenuContentViewController2 {
+class UserListViewController: UIViewController{
     
     @IBOutlet weak var tableView: UITableView!
     

@@ -17,8 +17,6 @@ class MenuContentPageViewController2 : UIPageViewController, UIGestureRecognizer
     var presenter: MenuContainerPresenter2?
     var disposeBag = DisposeBag()
     
-    private var swipeDirection = SwipeDirection.none
-    
     var beforeMenu: MenuModel?
     var currentMenu: MenuModel?
     var afterMenu: MenuModel?
@@ -125,10 +123,4 @@ extension MenuContentPageViewController2: UIPageViewControllerDelegate {
         }
     }
     
-}
-
-enum SwipeDirection {
-    case none
-    case left
-    case right
 }

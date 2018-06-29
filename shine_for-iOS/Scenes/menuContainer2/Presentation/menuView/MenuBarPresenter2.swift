@@ -49,34 +49,67 @@ class MenuBarPresenterImpl2: MenuBarPresenter2, MenuBarInputs2, MenuBarOutputs2 
     var menuList: [MenuModel] = []
     var disposeBag = DisposeBag()
     
+    var indexOfCurrent = BehaviorSubject<Int?>(value: nil)
     var indexOfSelected = PublishSubject<Int>()
     var indexOfLeftSwiped = PublishSubject<Int>()
     var indexOfRightSwiped = PublishSubject<Int>()
     
     var reload = PublishSubject<Void>()
     
+    lazy var selectedIndex: Observable<Int> = {
+        return indexOfSelected.withLatestFrom(indexOfCurrent) { ($0, $1) }
+            .filter { $0 != $1 }
+            .map { [unowned self] index, _ in
+                return index
+            }.do(onNext: { index in
+                self.indexOfCurrent.onNext(index)
+            })
+            .share(replay: 1)
+    }()
+    
+    lazy var swipedLeftIndex: Observable<Int> = {
+        return indexOfLeftSwiped.withLatestFrom(indexOfCurrent) { ($0, $1) }
+            .filter { $0 != $1 }
+            .map { index, _ in index}
+            .do(onNext: { index in
+                self.indexOfCurrent.onNext(index)
+            })
+            .share(replay: 1)
+    }()
+    lazy var swipedRightIndex: Observable<Int> = {
+        return indexOfRightSwiped.withLatestFrom(indexOfCurrent) { ($0, $1) }
+            .filter { $0 != $1 }
+            .map { index, _ in index}
+            .do(onNext: { index in
+                self.indexOfCurrent.onNext(index)
+            })
+            .share(replay: 1)
+    }()
+        
     lazy var selectedMenus: Observable<(prev: MenuModel?, current: MenuModel, next: MenuModel?)> = {
-        return indexOfSelected
-            .map( { [unowned self] index in
+        return selectedIndex
+            .map( { [unowned self] selectIndex in
                 var prevMenu: MenuModel?
                 var nextMenu: MenuModel?
-                if let prevIndex = self.indexSefetyInMenuList(index - 1) {
+                if let prevIndex = self.indexSefetyInMenuList(selectIndex - 1) {
                     prevMenu = self.menuList[prevIndex]
                 }
-                if let nextIndex = self.indexSefetyInMenuList(index + 1) {
+                if let nextIndex = self.indexSefetyInMenuList(selectIndex + 1) {
                     nextMenu = self.menuList[nextIndex]
                 }
-                return (prev: prevMenu, current: self.menuList[index], next: nextMenu)
+                return (prev: prevMenu, current: self.menuList[selectIndex], next: nextMenu)
             })
+            .share(replay: 1)
     }()
     
     lazy var eventOfLeftSwiped: Observable<Int> = {
-        return indexOfLeftSwiped
-
+        return swipedLeftIndex
+               .share(replay: 1)
     }()
     
     lazy var eventOfRightSwiped: Observable<Int> = {
-        return indexOfRightSwiped
+        return swipedRightIndex
+               .share(replay: 1)
     }()
     
     lazy var pushOutMenuFromBefore: Observable<MenuModel?> = {
@@ -88,6 +121,7 @@ class MenuBarPresenterImpl2: MenuBarPresenter2, MenuBarInputs2, MenuBarOutputs2 
                 }
                 return menu
             }
+            .share(replay: 1)
     }()
     
     lazy var pushOutMenuFromAfter: Observable<MenuModel?> = {
@@ -98,11 +132,13 @@ class MenuBarPresenterImpl2: MenuBarPresenter2, MenuBarInputs2, MenuBarOutputs2 
                     menu = self.menuList[nextIndex]
                 }
                 return menu
-        }
+            }
+            .share(replay: 1)
     }()
     
     lazy var reloadData: Observable<Void> = {
         return reload
+               .share(replay: 1)
     }()
 
     var isInfinite: Bool

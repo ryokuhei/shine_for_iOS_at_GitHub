@@ -66,6 +66,7 @@ extension MenuBarView2: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+        
         presenter?.inputs.indexOfSelected.onNext(indexPath.item)
     }
     
