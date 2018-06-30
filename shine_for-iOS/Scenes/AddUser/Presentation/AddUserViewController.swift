@@ -20,6 +20,14 @@ class AddUserViewController: UIViewController {
     var backButton: UIBarButtonItem!
     var doneButton: UIBarButtonItem!
     
+    lazy private var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        indicator.frame = self.navigationController?.view.bounds ?? self.view.bounds
+        indicator.backgroundColor = UIColor(white: 0, alpha: 0.4)
+        
+        return indicator
+    }()
+    
     let disposeBag = DisposeBag()
     
     var wirefreame: AddUserWireFrame?
@@ -41,6 +49,7 @@ class AddUserViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         self.configureNotification()
     }
     
@@ -69,12 +78,19 @@ class AddUserViewController: UIViewController {
         self.comment.delegate = self
         
         self.icon.image = UIImage(named: Assets.no_profile_icon.rawValue)
+        self.icon.isUserInteractionEnabled = true
         
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.didTapIcon))
+        self.icon.addGestureRecognizer(tapRecognizer)
+
         self.doneButton = UIBarButtonItem(title: "done", style: .done, target: nil, action: nil)
-        self.navigationItem.rightBarButtonItem = self.doneButton
         
+        self.navigationItem.setRightBarButton(doneButton, animated: true)
+
         self.backButton = UIBarButtonItem(title: "back", style: .plain, target: nil, action: nil)
         self.navigationItem.leftBarButtonItem = self.backButton
+        
+        self.navigationController?.view.addSubview(activityIndicator) ?? self.view.addSubview(activityIndicator)
         
     }
     
@@ -106,7 +122,6 @@ class AddUserViewController: UIViewController {
             .subscribe(onNext: {
                 [unowned self] (result) in
                 if result {
-                    MenuManager.reload()
                     self.wirefreame?.showTopView()
                 }
             })
@@ -119,6 +134,31 @@ class AddUserViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        presenter?.outputs.icon
+            .asDriver()
+            .drive(onNext: {
+                [unowned self] (data) in
+                guard let data = data else {
+                    self.icon.image = UIImage(named: Assets.no_profile_icon.rawValue)
+                    return
+                }
+                self.icon.image = UIImage(data: data)
+            })
+            .disposed(by: disposeBag)
+        
+        presenter?.outputs.isRegistering
+            .asDriver()
+            .drive(onNext: {
+                [unowned self] isUpdating in
+                if isUpdating {
+                    self.activityIndicator.startAnimating()
+                } else {
+                    self.activityIndicator.stopAnimating()
+                }
+                
+            })
+            .disposed(by: disposeBag)
+
     }
     
     // view touched event
@@ -127,6 +167,44 @@ class AddUserViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+}
+    
+extension AddUserViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    @objc func didTapIcon() {
+        print("didtap")
+        guard UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) else {
+            return
+        }
+
+        let controller = UIImagePickerController()
+        controller.delegate = self
+        controller.sourceType = UIImagePickerControllerSourceType.photoLibrary
+
+        self.present(controller, animated: true, completion: nil)
+
+    }
+
+    // MARK: UIImagePickerDelegate
+    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+
+        let quality: CGFloat = 1.0
+
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage,
+            let resizeImage = image.resize(size: ObjectSize.icon.size()),
+            let uploadData = UIImageJPEGRepresentation(resizeImage, quality) {
+
+            self.presenter?.inputs.icon.value = uploadData
+            self.presenter?.inputs.iconFileName.value = self.generateFileName()
+            self.presenter?.inputs.isUploadedIcon.value = true
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+
+    private func generateFileName() ->String {
+        return UUID().uuidString
+    }
+
 }
 
 extension AddUserViewController: UITextFieldDelegate {

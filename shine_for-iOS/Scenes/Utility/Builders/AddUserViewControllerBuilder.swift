@@ -19,13 +19,15 @@ class AddUserViewControlerBuilder: ViewControllerBuildable {
         
         let wireframe = AddUserWireFrame(viewController: vc)
         
-        let repository = UserRepositoryImpl(
+        let userRepository = UserRepositoryImpl(
             userProfile: FBUserProfileDataStoreImpl(),
             userGroup: FBUserGroupDataStoreImpl()
         )
+        let iconRepository = IconRepositoryImpl(icon: FBIconDataStoreImpl())
         let presenter = AddUserPresenterImpl(
             usecase: AddUserUseCaseImpl(
-                repository: repository,
+                user: userRepository,
+                icon: iconRepository,
                 translator: UserTranslatorImpl()
             )
         )

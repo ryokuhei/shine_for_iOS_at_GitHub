@@ -11,25 +11,46 @@ import RxCocoa
 import RxSwift
 
 protocol AddUserUseCase {
-    func register(user model: UserModel) ->Observable<Bool>
+    func register(user model: UserModel, _ isUplodedIcon: Bool) ->Observable<Bool>
 }
-
 class AddUserUseCaseImpl: BaseUseCase, AddUserUseCase {
     
-    var repository: UserRepository
+    var userRepository: UserRepository
+    let iconRepository: IconRepository
     var translator: UserTranslator
     
-    init(repository: UserRepository, translator: UserTranslator) {
-        self.repository = repository
+    init(user: UserRepository, icon: IconRepository, translator: UserTranslator) {
+        self.userRepository = user
+        self.iconRepository = icon
         self.translator = translator
     }
     
-    func register(user model: UserModel) ->Observable<Bool> {
-        var entity = translator.translate(model: model)
-        return repository.create(user: &entity)
-            .map { (userEntity) ->Bool in
-                return true
+    func register(user: UserModel, _ isUplodedIcon: Bool = false) ->Observable<Bool> {
+        
+        return self.upload(icon: user.icon, of: user.iconFileName, isUplodedIcon)
+            .asObservable()
+            .map { _ in true }
+            .concat(self.register(user: user))
+    }
+    
+    private func upload(icon: Data?, of fileName: String?, _ isUpload: Bool) ->Completable {
+        if isUpload {
+            return self.iconRepository.save(icon!, of: fileName!, to: .main)
+        } else {
+            return Completable.create { observer -> Disposable in
+                observer(.completed)
+                return Disposables.create()
             }
+        }
+    }
+    
+    private func register(user: UserModel) -> Observable<Bool> {
+        var userEntity = translator.translate(model: user)
+        
+        return self.userRepository.create(user: &userEntity)
+            .map { userEntity in
+                return true
+        }
     }
     
 }

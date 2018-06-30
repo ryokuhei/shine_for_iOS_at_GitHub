@@ -53,8 +53,6 @@ class EditPresenterImpl: BasePresetner,EditPresenter, EditInputs, EditOutputs {
     lazy var inputs: EditInputs = { self }()
     lazy var outputs: EditOutputs = { self }()
     
-    
-    var disposeBag = DisposeBag()
     var usecase: EditUseCase
     
     // properties
@@ -110,7 +108,6 @@ class EditPresenterImpl: BasePresetner,EditPresenter, EditInputs, EditOutputs {
                 [unowned self] (user) in
                 return self.usecase.update(user: user, self.isUploadedIcon.value)
             }
-            .debug()
             .do(onNext:{ _ in
                 self.isUpdating.value = false
             }, onError: { _ in
