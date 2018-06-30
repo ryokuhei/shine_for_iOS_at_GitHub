@@ -9,13 +9,13 @@
 import Foundation
 import UIKit
 
-struct MenuContainerBuilder {
+struct MenuContainer2Builder {
     
     typealias ViewController = MenuContainerViewController2
     
     static func build() -> MenuContainerViewController2 {
 
-        let storyboard = UIStoryboard(name: "menuContainer", bundle: nil)
+        let storyboard = UIStoryboard(name: "menuContainer2", bundle: nil)
         let vc = storyboard.instantiateInitialViewController() as! MenuContainerViewController2
         
         let groupRepository = GroupRepositoryImpl(group: FBGroupDataStoreImpl())
@@ -41,7 +41,7 @@ struct MenuContainerBuilder {
     
     static private func contentPageBuilder() ->MenuContentPageViewController2 {
         
-        let storyboard = UIStoryboard(name: "menuContentPage", bundle: nil)
+        let storyboard = UIStoryboard(name: "menuContentPage2", bundle: nil)
         let vc = storyboard.instantiateInitialViewController() as! MenuContentPageViewController2
         
         return vc

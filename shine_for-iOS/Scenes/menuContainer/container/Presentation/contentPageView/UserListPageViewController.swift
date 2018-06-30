@@ -76,7 +76,6 @@ extension MenuPageViewController: UIPageViewControllerDataSource {
             return nil
         }
         let beforeViewController = MenuContentViewContorllerBuilder.build(menu: prevMenu)
-        presenter?.inputs.swipeOfRight.onNext(())
 
         return beforeViewController
     }
@@ -87,8 +86,7 @@ extension MenuPageViewController: UIPageViewControllerDataSource {
             return nil
         }
         let afterViewController = MenuContentViewContorllerBuilder.build(menu: nextMenu)
-        presenter?.inputs.swipeOfLeft.onNext(())
-
+        
         return afterViewController
     }
 }
@@ -97,14 +95,16 @@ extension MenuPageViewController: UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
-//        let transistedVC = pageViewController.viewControllers?.first as! MenuContentViewContorller
-//        if currentIndex != transistedVC.index {
-//            if transistedVC.index == prevIndex {
-//                presenter?.inputs.swipeOfRight.onNext(())
-//            } else if transistedVC.index == nextIndex {
-//                presenter?.inputs.swipeOfLeft.onNext(())
-//            }
-//        }
+        if finished {
+            
+            let transistedVC = pageViewController.viewControllers?.first as! MenuContentViewContorller
+            
+            if transistedVC.menu?.index == prevMenu?.index {
+                presenter?.inputs.swipeOfRight.onNext(())
+            } else if transistedVC.menu?.index == nextMenu?.index {
+                presenter?.inputs.swipeOfLeft.onNext(())
+            }
+        }
 
     }
     

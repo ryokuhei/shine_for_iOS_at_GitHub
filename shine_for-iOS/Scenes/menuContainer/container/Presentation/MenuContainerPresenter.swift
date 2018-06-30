@@ -83,12 +83,12 @@ class MenuContainerPresenterImpl: MenuContainerPresenter,MenuContainerInputs, Me
     }()
     
     lazy var contentIndexOfCurrent: Observable<Int?> = {
-        return self.currentIndex.asObservable()
+        return self.currentIndex
                .share(replay: 1)
     }()
     
     lazy var contentIndexOfBefore: Observable<Int?> = {
-        return self.currentIndex.asObservable()
+        return self.currentIndex
                    .filter { $0 != nil }
                    .flatMap {
                      [unowned self] index in
@@ -98,7 +98,7 @@ class MenuContainerPresenterImpl: MenuContainerPresenter,MenuContainerInputs, Me
     }()
     
     lazy var contentIndexOfAfter: Observable<Int?> = {
-        return self.currentIndex.asObservable()
+        return self.currentIndex
                    .filter { $0 != nil }
                    .flatMap {
                      [unowned self] index in
