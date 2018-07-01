@@ -30,7 +30,7 @@ struct MenuContainer2Builder {
                                                      group: GroupRepositoryImpl(
                                                         group: FBGroupDataStoreImpl()
                                                      ),
-                                                     isInfinite: true)
+                                                     isInfinite: false)
         
         vc.inject(menuContentPresenter: menuContentPresenter,
                   menuBarPresenter: menuBarPresenter,

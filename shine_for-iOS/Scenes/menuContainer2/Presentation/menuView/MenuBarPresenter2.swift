@@ -157,7 +157,6 @@ class MenuBarPresenterImpl2: MenuBarPresenter2, MenuBarInputs2, MenuBarOutputs2 
     }
 
     func reloadMenu() {
-        print("reloadMenu")
         var index = -1
         self.group.getGroupList()
             .map {
