@@ -28,9 +28,9 @@ class TopWireFrame: WireFrame {
         
     }
     
-    func showUserDetail(userKey: String, menuKey: String) {
+    func showUserDetail(userKey: String, menu group: Group) {
         
-        let transitVC = DetailViewControllerBuilder.build(userKey: userKey, menuKey: menuKey)
+        let transitVC = DetailViewControllerBuilder.build(userKey: userKey, menu: group)
         
         let naviVC = UINavigationController(rootViewController: transitVC)
         viewController.present(naviVC, animated: true, completion: nil)

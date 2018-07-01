@@ -17,11 +17,13 @@ class AddUserUseCaseImpl: BaseUseCase, AddUserUseCase {
     
     var userRepository: UserRepository
     let iconRepository: IconRepository
+    let groupRepository: GroupRepository
     var translator: UserTranslator
     
-    init(user: UserRepository, icon: IconRepository, translator: UserTranslator) {
-        self.userRepository = user
-        self.iconRepository = icon
+    init(userRepository: UserRepository, iconRepository: IconRepository, groupRepository: GroupRepository, translator: UserTranslator) {
+        self.userRepository = userRepository
+        self.iconRepository = iconRepository
+        self.groupRepository = groupRepository
         self.translator = translator
     }
     
@@ -31,6 +33,11 @@ class AddUserUseCaseImpl: BaseUseCase, AddUserUseCase {
             .asObservable()
             .map { _ in true }
             .concat(self.register(user: user))
+            .do(onNext: { result in
+                if result {
+                    _ = self.switchBetweenToUsedIfUnused(by: Group(key: user.name)).subscribe()
+                }
+            })
     }
     
     private func upload(icon: Data?, of fileName: String?, _ isUpload: Bool) ->Completable {
@@ -50,6 +57,18 @@ class AddUserUseCaseImpl: BaseUseCase, AddUserUseCase {
         return self.userRepository.create(user: &userEntity)
             .map { userEntity in
                 return true
+        }
+    }
+    
+    private func switchBetweenToUsedIfUnused(by group: Group) ->Observable<Bool> {
+        
+        return self.groupRepository.isUsed(group)
+            .flatMap {
+                [unowned self] isUsed ->Observable<Bool> in
+                guard isUsed else {
+                    return self.groupRepository.use(group)
+                }
+                return Observable.just(true)
         }
     }
     

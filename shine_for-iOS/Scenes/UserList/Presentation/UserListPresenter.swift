@@ -11,7 +11,7 @@ import RxCocoa
 import RxSwift
 
 protocol UserListInputs {
-    var selectUserList: PublishSubject<String>{get}
+    var selectUserList: PublishSubject<Group>{get}
     var tapUserCell: PublishSubject<String> {get}
 }
 
@@ -36,7 +36,7 @@ class UserListPresenterImpl: UserListPresenter, UserListInputs, UserListOutputs 
         self.usecase = usercase
     }
 
-    var selectUserList = PublishSubject<String>()
+    var selectUserList = PublishSubject<Group>()
     var tapUserCell = PublishSubject<String>()
     
     lazy var reloadUserList: Observable<[UserListModel]> = {

@@ -19,6 +19,8 @@ import FirebaseAuth
 protocol GroupDataStore {
     
     func fetchAll() ->Single<[GroupEntity]>
+    func fetch(by key: Group) ->Single<GroupEntity>
+    func update(by key: Group, isUsed: Bool) ->Completable
 }
 
 class FBGroupDataStoreImpl: BaseDataStore, GroupDataStore {
@@ -49,6 +51,40 @@ class FBGroupDataStoreImpl: BaseDataStore, GroupDataStore {
                     observer(.success(groupEntityList))
                 })
 
+            return Disposables.create()
+        }
+    }
+    
+    func fetch(by group: Group) ->Single<GroupEntity> {
+        
+        return Single.create {
+            [unowned self] (observer) ->Disposable in
+            self.groupReference
+                .child(group.byKey())
+                .observe(.value, with: {
+                    (snapshot) in
+                        let groupEntity = GroupEntity(snapshot: snapshot)
+                        observer(.success(groupEntity))
+                })
+            
+            return Disposables.create()
+        }
+    }
+    
+    func update(by group: Group, isUsed: Bool) ->Completable {
+        
+        return Completable.create {
+            [unowned self] (observer) ->Disposable in
+            self.groupReference
+                .updateChildValues([group.byKey(): isUsed] as [AnyHashable : Any]) {
+                    (error, dataRef) in
+                    if let error = error {
+                        observer(.error(error))
+                        return
+                    }
+                    observer(.completed)
+            }
+            
             return Disposables.create()
         }
     }

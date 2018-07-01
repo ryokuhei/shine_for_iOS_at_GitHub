@@ -90,7 +90,8 @@ extension MenuBarView2: UICollectionViewDataSource {
         let cell: MenuCell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuCell", for: indexPath) as! MenuCell
         
         let index = indexPath.item
-        cell.setDisplay(display: MenuManager.menuList[index].tabDisplay ?? "")
+        let menu = presenter?.outputs.menuList[index]
+        cell.setDisplay(display: menu?.tabDisplay ?? "")
         
         return cell
     }

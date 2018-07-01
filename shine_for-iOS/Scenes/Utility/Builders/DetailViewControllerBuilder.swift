@@ -19,7 +19,7 @@ class DetailViewControllerBuilder: ViewControllerBuildable {
         return vc
     }
     
-    static func build(userKey: String, menuKey: String) -> DetailViewController {
+    static func build(userKey: String, menu group: Group) -> DetailViewController {
         let storyboard = UIStoryboard(name: "detail", bundle: nil)
         let vc = storyboard.instantiateInitialViewController() as! DetailViewController
         
@@ -41,7 +41,7 @@ class DetailViewControllerBuilder: ViewControllerBuildable {
         
         let wireframe = DetailWireFrame(viewController: vc)
         
-        vc.inject(userKey: userKey, menuKey: menuKey, presenter: presenter, wireframe: wireframe)
+        vc.inject(userKey: userKey, menu: group, presenter: presenter, wireframe: wireframe)
         
         return vc
     }

@@ -28,13 +28,14 @@ class UserListViewControllerBuilder: ViewControllerBuildable {
         )
         let presenter = UserListPresenterImpl(usercase: usecase)
         
-        let key = MenuManager.menuList[0].key
-        vc.inject(key: key, wireFrame: wireFrame, presenter: presenter)
+        let group = MenuManager.menuList[0].group
+        vc.inject(group: group, wireFrame: wireFrame, presenter: presenter)
         
         return vc
     }
     
-    static func build(_ key: String) -> UserListViewController {
+    static func build(_ group: Group) -> UserListViewController {
+        
         let storyboard = UIStoryboard(name: "userList", bundle: nil)
         let vc = storyboard.instantiateInitialViewController() as! UserListViewController
         let wireFrame = UserListWireFrame(viewController: vc)
@@ -50,7 +51,7 @@ class UserListViewControllerBuilder: ViewControllerBuildable {
             )
         )
         
-        vc.inject(key: key, wireFrame: wireFrame, presenter: presenter)
+        vc.inject(group: group, wireFrame: wireFrame, presenter: presenter)
         
         return vc
     }

@@ -42,7 +42,7 @@ class MenuContainerUseCaseImpl: BaseUseCase, MenuContainerUseCase {
     }
     
     func instantiateViewController(at menu: MenuModel) ->Observable<UIViewController> {
-        return Observable.just(UserListViewControllerBuilder.build(menu.key))
+        return Observable.just(UserListViewControllerBuilder.build(menu.group))
     }
 
 }

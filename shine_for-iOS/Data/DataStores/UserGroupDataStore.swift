@@ -15,10 +15,10 @@ import FirebaseAuth
 
 protocol UserGroupDataStore {
     
-    func fetch(by key: String) ->Observable<UserGroupEntity>
-    func append(user entity: UserProfileEntity, _ toKey: String) ->Completable
-    func move(user entity: UserProfileEntity, _ fromKey: String, _ toKey: String) ->Completable
-    func remove(user entity: UserProfileEntity, _ fromKey: String) ->Completable
+    func fetch(by key: Group) ->Observable<UserGroupEntity>
+    func append(user entity: UserProfileEntity, to group: Group) ->Completable
+    func move(user entity: UserProfileEntity, to toGroup: Group, from fromGroup: Group) ->Completable
+    func remove(user entity: UserProfileEntity, from group: Group) ->Completable
 }
 
 class FBUserGroupDataStoreImpl: BaseDataStore, UserGroupDataStore {
@@ -30,12 +30,12 @@ class FBUserGroupDataStoreImpl: BaseDataStore, UserGroupDataStore {
             .child("groups")
     }()
     
-    func fetch(by key: String) ->Observable<UserGroupEntity> {
+    func fetch(by key: Group) ->Observable<UserGroupEntity> {
 
         return Observable.create {
           [unowned self] (observer) ->Disposable in
             self.groupReference
-                .child(key)
+                .child(key.byKey())
                 .queryOrdered(byChild: "name")
                 .observe(.value, with: {
                   (snapshot) in
@@ -47,13 +47,13 @@ class FBUserGroupDataStoreImpl: BaseDataStore, UserGroupDataStore {
         }
     }
     
-    func append(user entity: UserProfileEntity, _ toKey: String) ->Completable {
+    func append(user entity: UserProfileEntity, to group: Group) ->Completable {
 
         return Completable.create {
           [unowned self] (observer) ->Disposable in
 
             self.groupReference
-                .child(toKey)
+                .child(group.byKey())
                 .child(entity.key)
                 .setValue(self.convertJson(user: (key: entity.key, name: entity.name))) {
                   (error, ref) in
@@ -69,33 +69,37 @@ class FBUserGroupDataStoreImpl: BaseDataStore, UserGroupDataStore {
         
     }
     
-    func remove(user entity: UserProfileEntity, _ fromKey: String) ->Completable {
+    func remove(user entity: UserProfileEntity, from group: Group) ->Completable {
+        
         return Completable.create {
-          [unowned self] observer in
-            self.groupReference.child(fromKey).child(entity.key).removeValue {
-              (error, ref) in
-                if let error = error {
-                    observer(.error(error))
-                    return
-                }
-                observer(.completed)
+            [unowned self] observer in
+            self.groupReference
+                .child(group.byKey())
+                .child(entity.key)
+                .removeValue {
+                    (error, ref) in
+                    if let error = error {
+                        observer(.error(error))
+                        return
+                    }
+                    observer(.completed)
             }
             
             return Disposables.create()
         }
     }
     
-    func move(user entity: UserProfileEntity, _ fromKey: String, _ toKey: String) ->Completable {
+    func move(user entity: UserProfileEntity, to group: Group, from currentGroup: Group) ->Completable {
         
-//        return self.remove(user: entity, fromKey)
-//                   .concat(self.append(user: entity, toKey))
         return Completable.create { observer in
-//            var removeCompletable = self.remove(user: entity, fromKey)
-//            var appendCompletable = self.append(user: entity, toKey)
-            _ = self.remove(user: entity, fromKey)
-            _ = self.append(user: entity, toKey)
             
-            observer(.completed)
+           _ = self.remove(user: entity, from: currentGroup)
+            .subscribe(onCompleted: {
+               _ = self.append(user: entity, to: group)
+                .subscribe(onCompleted: { observer(.completed)
+                }, onError: { error in observer(.error(error))})
+            }, onError: { error in observer(.error(error))})
+
             return Disposables.create()
         }
     }

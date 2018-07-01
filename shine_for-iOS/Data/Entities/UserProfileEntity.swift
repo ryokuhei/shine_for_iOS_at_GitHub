@@ -9,7 +9,7 @@
 import Foundation
 import FirebaseDatabase
 
-class UserProfileEntity: Decodable {
+class UserProfileEntity {
     
     let key: String
     let id: String
@@ -17,9 +17,9 @@ class UserProfileEntity: Decodable {
     let email: String
     let comment: String?
     let iconFileName: String?
-    var group: String?
+    let group: Group
 
-    init(key: String, id: String, name: String, email: String, comment: String? = nil, iconFileName: String? = nil, group: String? = nil) {
+    init(key: String, id: String, name: String, email: String, comment: String? = nil, iconFileName: String? = nil, group: Group = .none) {
         self.key = key
         self.id = id
         self.name = name
@@ -39,7 +39,12 @@ class UserProfileEntity: Decodable {
         
         self.comment = value["comment"] as? String
         self.iconFileName = value["icon_file_name"] as? String
-        self.group = value["group"] as? String
+        let groupKey = value["group"] as? String
+        if let groupKey = groupKey {
+            self.group = Group(key: groupKey)
+        } else {
+            self.group = Group()
+        }
     }
     
     func toAnyObject() ->Any {
@@ -49,7 +54,7 @@ class UserProfileEntity: Decodable {
             "email": self.email,
             "comment": self.comment ?? "",
             "icon_file_name": self.iconFileName ?? "",
-            "group": self.group ?? ""
+            "group": self.group.byKey()
         ]
     }
     

@@ -34,11 +34,13 @@ class EditViewControlerBuilder: ViewControllerBuildable {
         let iconRepository = IconRepositoryImpl(
             icon: FBIconDataStoreImpl()
         )
+        let groupRepository = GroupRepositoryImpl(group: FBGroupDataStoreImpl())
         
         let presenter = EditPresenterImpl(
             usecase: EditUseCaseImpl(
                 userRepository: userRepository,
                 iconRepository: iconRepository,
+                groupRepository: groupRepository,
                 translator: UserTranslatorImpl()
             )
         )

@@ -11,12 +11,19 @@ import FirebaseDatabase
 
 class GroupEntity {
     
-    let group: String
+    let group: Group
+    let isUsed: Bool
 
-    init(group: String) {
+    init(group: Group, isUsed: Bool = false) {
         self.group = group
+        self.isUsed = isUsed
     }
     init(snapshot: DataSnapshot) {
-        self.group = snapshot.key
+        self.group = Group(key: snapshot.key)
+        guard let value = snapshot.value as? [String: Any]  else {
+            self.isUsed = false
+            return
+        }
+        self.isUsed = value[self.group.byKey()] as? Bool ?? false
     }
 }

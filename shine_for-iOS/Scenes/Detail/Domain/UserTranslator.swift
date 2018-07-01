@@ -21,17 +21,18 @@ class UserTranslatorImpl: BasePresetner, UserTranslator {
                          email: entity.email,
                          comment: entity.comment,
                          iconFileName: entity.iconFileName,
-                         group: entity.group)
+                         menu: entity.group)
     }
     
     func translate(model: UserModel) ->UserProfileEntity {
+        let group = Group(key: model.name)
         return UserProfileEntity(key: model.key,
                                  id: model.id,
                                  name: model.name,
                                  email: model.email,
                                  comment: model.comment,
                                  iconFileName: model.iconFileName,
-                                 group: model.group
+                                 group: group
         )
         
     }

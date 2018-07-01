@@ -17,7 +17,7 @@ class UserModel: BaseModel {
     var comment: String?
     var icon: Data?
     var iconFileName: String?
-    var group: String?
+    var menu: Group
 
     init(key: String,
          id: String,
@@ -26,8 +26,8 @@ class UserModel: BaseModel {
          comment: String? = nil,
          icon: Data? = nil,
          iconFileName: String? = nil,
-         group: String? = nil
-        ) {
+         menu: Group = .none ) {
+        
         self.key = key
         self.id = id
         self.name = name
@@ -35,7 +35,7 @@ class UserModel: BaseModel {
         self.comment = comment
         self.icon = icon
         self.iconFileName = iconFileName
-        self.group = group
+        self.menu = menu
     }
     
 }

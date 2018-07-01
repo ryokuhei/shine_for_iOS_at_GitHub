@@ -19,12 +19,12 @@ class UserListViewController: UIViewController{
     var presenter: UserListPresenter?
     var disposeBag = DisposeBag()
     
-    var key: String?
+    var group: Group?
     
     var userList = [UserListModel]()
 
-    func inject(key: String?, wireFrame: UserListWireFrame, presenter: UserListPresenter) {
-        self.key = key
+    func inject(group: Group?, wireFrame: UserListWireFrame, presenter: UserListPresenter) {
+        self.group = group
         
         self.wireFrame = wireFrame
         self.presenter = presenter
@@ -41,8 +41,8 @@ class UserListViewController: UIViewController{
     }
     
     func setInputObservable() {
-        if let key = key {
-            self.presenter?.inputs.selectUserList.onNext(key)
+        if let group = self.group {
+            self.presenter?.inputs.selectUserList.onNext(group)
         }
     }
     
@@ -51,7 +51,7 @@ class UserListViewController: UIViewController{
         self.presenter?.outputs.showUserDetail
             .asDriver(onErrorDriveWith: Driver.empty())
             .drive(onNext:{ [unowned self] userKey in
-                self.wireFrame?.showUserDetail(userKey: userKey, menuKey: self.key!)
+                self.wireFrame?.showUserDetail(userKey: userKey, menu: self.group!)
             })
             .disposed(by: disposeBag)
         

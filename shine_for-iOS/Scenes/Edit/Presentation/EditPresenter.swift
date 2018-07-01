@@ -20,7 +20,7 @@ protocol EditInputs {
     var comment: Variable<String?> {get}
     var icon: Variable<Data?> {get}
     var iconFileName: Variable<String?> {get}
-    var group: Variable<String?> {get}
+    var menu: Variable<Group> {get}
     var isUploadedIcon: Variable<Bool> {get}
     
     // Events
@@ -61,7 +61,7 @@ class EditPresenterImpl: BasePresetner,EditPresenter, EditInputs, EditOutputs {
     var name = Variable<String?>("")
     var email = Variable<String?>("")
     var comment = Variable<String?>("")
-    var group = Variable<String?>(nil)
+    var menu = Variable<Group>(.none)
     var icon = Variable<Data?>(nil)
     var iconFileName = Variable<String?>(nil)
     
@@ -81,8 +81,8 @@ class EditPresenterImpl: BasePresetner,EditPresenter, EditInputs, EditOutputs {
                           comment.asObservable(),
                           icon.asObservable(),
                           iconFileName.asObservable(),
-                          group.asObservable()) {
-                            (key, name, id ,email, comment, icon, iconFileName, group) ->UserModel in
+                          menu.asObservable()) {
+                            key, name, id ,email, comment, icon, iconFileName, menu ->UserModel in
                             return UserModel(key: key!,
                                              id: id!,
                                              name: name!,
@@ -90,23 +90,30 @@ class EditPresenterImpl: BasePresetner,EditPresenter, EditInputs, EditOutputs {
                                              comment: comment,
                                              icon: icon,
                                              iconFileName: iconFileName,
-                                             group: group)
+                                             menu: menu)
                           }
+    }()
+    
+    lazy var updateData: Observable<(user: UserModel, menu: Group)> = {
+        return Observable.combineLatest(self.user, self.menu.asObservable()) {
+            (user, menu) in
+            return (user: user, menu: menu)
+        }
     }()
 
     lazy var updatedUser: Observable<Bool> = {
         return tapDoneBuutton
-            .withLatestFrom(self.user) { $1 }
+            .withLatestFrom(self.updateData) { $1 }
             .filter {
-                [unowned self] (user) in
-                return user.name.count >= 1
+                [unowned self] (data) in
+                return data.user.name.count >= 1
             }
            .do(onNext: { _ in
                self.isUpdating.value = true
            })
             .flatMap {
-                [unowned self] (user) in
-                return self.usecase.update(user: user, self.isUploadedIcon.value)
+                [unowned self] (data) in
+                return self.usecase.update(user: data.user, from: data.menu, self.isUploadedIcon.value)
             }
             .do(onNext:{ _ in
                 self.isUpdating.value = false
@@ -128,7 +135,7 @@ class EditPresenterImpl: BasePresetner,EditPresenter, EditInputs, EditOutputs {
         self.email.value = user.email
         self.comment.value = user.comment
         self.iconFileName.value = user.iconFileName
-        self.group.value = user.group
+        self.menu.value = user.menu
         self.icon.value = icon
     }
 }

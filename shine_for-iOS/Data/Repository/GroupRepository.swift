@@ -12,6 +12,9 @@ import RxSwift
 
 protocol GroupRepository {
     func getGroupList() ->Observable<[GroupEntity]>
+    func use(_ group: Group) ->Observable<Bool>
+    func unused(_ group: Group) ->Observable<Bool>
+    func isUsed(_ group: Group) ->Observable<Bool>
 }
 
 class GroupRepositoryImpl: BaseRepository, GroupRepository {
@@ -26,5 +29,23 @@ class GroupRepositoryImpl: BaseRepository, GroupRepository {
         return group.fetchAll()
             .asObservable()
     }
+    func use(_ group: Group) ->Observable<Bool> {
+        return self.group.update(by: group, isUsed: true)
+                   .asObservable()
+                   .map{_ in true}
+    }
     
+    func unused(_ group: Group) ->Observable<Bool> {
+        return self.group.update(by: group, isUsed: false)
+            .asObservable()
+            .map{_ in true}
+    }
+    
+    func isUsed(_ group: Group) ->Observable<Bool> {
+        return self.group.fetch(by: group)
+            .map { group in
+                return group.isUsed
+            }
+            .asObservable()
+    }
 }

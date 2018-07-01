@@ -65,6 +65,7 @@ class FBUserProfileDataStoreImpl: BaseDataStore, UserProfileDataStore {
     }
     
     func update(user entity: UserProfileEntity) ->Single<UserProfileEntity> {
+        
         return Single.create {
           [unowned self] (observer) ->Disposable in
             self.usersReference

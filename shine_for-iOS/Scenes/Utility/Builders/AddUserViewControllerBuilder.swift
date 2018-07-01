@@ -24,10 +24,12 @@ class AddUserViewControlerBuilder: ViewControllerBuildable {
             userGroup: FBUserGroupDataStoreImpl()
         )
         let iconRepository = IconRepositoryImpl(icon: FBIconDataStoreImpl())
+        let groupRepository = GroupRepositoryImpl(group: FBGroupDataStoreImpl())
         let presenter = AddUserPresenterImpl(
             usecase: AddUserUseCaseImpl(
-                user: userRepository,
-                icon: iconRepository,
+                userRepository: userRepository,
+                iconRepository: iconRepository,
+                groupRepository: groupRepository,
                 translator: UserTranslatorImpl()
             )
         )

@@ -23,8 +23,8 @@ class MenuContentViewContorller: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let key = self.menu?.key {
-            wireframe?.showContentView(key: key)
+        if let group = self.menu?.group {
+            wireframe?.showContentView(group: group)
         }
     }
     

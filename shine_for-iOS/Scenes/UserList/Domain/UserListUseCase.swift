@@ -12,7 +12,7 @@ import RxSwift
 
 protocol UserListUseCase {
     
-    func getUserList(by key: String) ->Observable<[UserListModel]>
+    func getUserList(by key: Group) ->Observable<[UserListModel]>
 }
 
 class UserListUseCaseImpl: BaseUseCase, UserListUseCase {
@@ -25,7 +25,7 @@ class UserListUseCaseImpl: BaseUseCase, UserListUseCase {
         self.userListTranslator = translator
     }
     
-    func getUserList(by key: String) ->Observable<[UserListModel]> {
+    func getUserList(by key: Group) ->Observable<[UserListModel]> {
         
         return self.user.getUserInGroup(by: key)
                    .map { [unowned self] (userGroupEntity) ->[UserListModel] in

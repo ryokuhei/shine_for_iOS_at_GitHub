@@ -39,6 +39,11 @@ class MenuContainerViewController2: UIViewController {
         self.setUpInputsObservable()
         self.setUpOutputsObservable()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.menuBarPresenter?.inputs.reloadMenu()
+    }
     
     private func setUpInputsObservable() {
         

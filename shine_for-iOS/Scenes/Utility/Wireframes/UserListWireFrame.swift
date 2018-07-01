@@ -19,9 +19,9 @@ class UserListWireFrame: WireFrame {
         self.viewController = viewController
     }
     
-    func showUserDetail(userKey: String, menuKey: String) {
+    func showUserDetail(userKey: String, menu group: Group) {
         
-        let transiteVC = DetailViewControllerBuilder.build(userKey: userKey, menuKey: menuKey)
+        let transiteVC = DetailViewControllerBuilder.build(userKey: userKey, menu: group)
 
         let naviVC = UINavigationController(rootViewController: transiteVC)
 //        viewController.navigationController?.pushViewController(naviVC, animated: true)

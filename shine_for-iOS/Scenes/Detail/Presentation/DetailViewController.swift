@@ -21,19 +21,19 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var edit: UIButton!
 
     var key: String?
-    var menuKey: String?
+    var menuGroup: Group?
     
     let disposeBag = DisposeBag()
     
     var presenter: DetailPresenter?
     var wireframe: DetailWireFrame?
     
-    func inject(userKey: String, menuKey: String, presenter: DetailPresenter, wireframe: DetailWireFrame) {
+    func inject(userKey: String, menu group: Group, presenter: DetailPresenter, wireframe: DetailWireFrame) {
         self.presenter = presenter
         self.wireframe = wireframe
         
         self.key = userKey
-        self.menuKey = menuKey
+        self.menuGroup = group
     }
     
     lazy private var activityIndicator: UIActivityIndicatorView = {
