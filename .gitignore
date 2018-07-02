@@ -19,7 +19,6 @@ xcuserdata/
 *.moved-aside
 *.xccheckout
 *.xcscmblueprint
-*.xcodeproj
 !.gitkeep
 
 ## Obj-C/Swift specific
