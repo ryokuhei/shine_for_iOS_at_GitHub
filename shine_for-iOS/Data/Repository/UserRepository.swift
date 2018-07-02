@@ -49,9 +49,10 @@ class UserRepositoryImpl: BaseRepository, UserRepository {
             .asObservable()
             .do(onNext: {
                 [unowned self] (entity) in
-                let result = self.userGroup.move(user: entity, to: entity.group, from: currentGroup)
-                result.subscribe()
-                      .dispose()
+                if currentGroup != entity.group {
+                    _ = self.userGroup.move(user: entity, to: entity.group, from: currentGroup)
+                        .subscribe()
+                }
             })
     }
     
