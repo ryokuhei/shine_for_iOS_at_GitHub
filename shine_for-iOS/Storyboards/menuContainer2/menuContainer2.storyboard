@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,10 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="6J1-j4-aon" customClass="MenuBarView2" customModule="shine_for_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="577" width="375" height="90"/>
+                                <rect key="frame" x="0.0" y="567" width="375" height="100"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="90" id="mWV-qa-r94"/>
+                                    <constraint firstAttribute="height" constant="100" id="mWV-qa-r94"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WLj-as-FmW">
                                     <size key="itemSize" width="48" height="64"/>
@@ -33,28 +32,23 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="menuCell" id="6xn-2a-d20" userLabel="menuCell" customClass="MenuCell" customModule="shine_for_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="13" width="48" height="64"/>
+                                        <rect key="frame" x="0.0" y="18" width="48" height="64"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="48" height="64"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="あ" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="04L-Vz-4lG">
-                                                    <rect key="frame" x="8" y="0.0" width="32" height="51"/>
-                                                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="20"/>
+                                                    <rect key="frame" x="6.5" y="12.5" width="35" height="40"/>
+                                                    <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="35"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="04L-Vz-4lG" firstAttribute="centerX" secondItem="6xn-2a-d20" secondAttribute="centerX" id="58X-6J-8QS"/>
-                                            <constraint firstAttribute="trailing" secondItem="04L-Vz-4lG" secondAttribute="trailing" constant="8" id="8Mk-xr-M49"/>
-                                            <constraint firstItem="04L-Vz-4lG" firstAttribute="leading" secondItem="6xn-2a-d20" secondAttribute="leadingMargin" id="QwS-fe-Izd"/>
-                                            <constraint firstItem="04L-Vz-4lG" firstAttribute="leading" secondItem="6xn-2a-d20" secondAttribute="leading" constant="8" id="U6L-O0-jGd"/>
-                                            <constraint firstAttribute="bottomMargin" secondItem="04L-Vz-4lG" secondAttribute="bottom" constant="5" id="UDV-Ai-vZs"/>
-                                            <constraint firstItem="04L-Vz-4lG" firstAttribute="top" secondItem="6xn-2a-d20" secondAttribute="top" id="f7S-Pb-eWk"/>
-                                            <constraint firstAttribute="trailingMargin" secondItem="04L-Vz-4lG" secondAttribute="trailing" id="oLz-cW-Qda"/>
+                                            <constraint firstItem="04L-Vz-4lG" firstAttribute="centerY" secondItem="6xn-2a-d20" secondAttribute="centerY" id="9kY-Ru-EfM"/>
+                                            <constraint firstItem="04L-Vz-4lG" firstAttribute="centerX" secondItem="6xn-2a-d20" secondAttribute="centerX" id="eU2-bH-Syq"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="menuView" destination="04L-Vz-4lG" id="YjD-TX-DZa"/>
@@ -63,7 +57,7 @@
                                 </cells>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uNV-zV-l9p">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="577"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="567"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
