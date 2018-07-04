@@ -172,7 +172,6 @@ class AddUserViewController: UIViewController {
 extension AddUserViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @objc func didTapIcon() {
-        print("didtap")
         guard UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) else {
             return
         }
@@ -191,7 +190,7 @@ extension AddUserViewController: UIImagePickerControllerDelegate, UINavigationCo
         let quality: CGFloat = 1.0
 
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage,
-            let resizeImage = image.resize(size: ObjectSize.icon.size()),
+            let resizeImage = image.compressCapacityToAbout(megabyte: 1),
             let uploadData = UIImageJPEGRepresentation(resizeImage, quality) {
 
             self.presenter?.inputs.icon.value = uploadData

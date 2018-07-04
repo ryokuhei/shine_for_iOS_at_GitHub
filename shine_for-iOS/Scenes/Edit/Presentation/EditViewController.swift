@@ -171,12 +171,10 @@ extension EditViewController: UIImagePickerControllerDelegate, UINavigationContr
     // MARK: UIImagePickerDelegate
     @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        let quality: CGFloat = 1.0
-
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage,
-           let resizeImage = image.resize(size: ObjectSize.icon.size()),
-           let uploadData = UIImageJPEGRepresentation(resizeImage, quality) {
-
+           let resizedImage = image.compressCapacityToAbout(megabyte: 1),
+           let uploadData = UIImagePNGRepresentation(resizedImage) {
+            
             self.presenter?.inputs.icon.value = uploadData
             self.presenter?.inputs.iconFileName.value = self.generateFileName()
             self.presenter?.inputs.isUploadedIcon.value = true
